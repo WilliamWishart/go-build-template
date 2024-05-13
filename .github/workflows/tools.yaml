@@ -1,9 +1,9 @@
-name: Run tests
+name: Run tools
 
 on: [ push, pull_request ]
 
 jobs:
-  test:
+  tools:
     strategy:
       matrix:
         go-version: [ "1.21", "1.22" ]
@@ -12,5 +12,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Test
-      run: make test GOFLAGS="-v" GO_VERSION=${{ matrix.go-version }}
+    - name: Run go-licenses
+      run: make .licenses GO_VERSION=${{ matrix.go-version }}
+    - name: Build manifest-tool
+      run: make manifest-list BINS= GO_VERSION=${{ matrix.go-version }}
